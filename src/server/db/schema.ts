@@ -1,13 +1,13 @@
 import { relations, sql } from "drizzle-orm";
 import {
+	boolean,
 	index,
 	integer,
 	pgTableCreator,
-	timestamp,
-	varchar,
-	boolean,
 	text,
+	timestamp,
 	unique,
+	varchar,
 } from "drizzle-orm/pg-core";
 
 export const createTable = pgTableCreator((name) => `flexit_${name}`);
@@ -63,7 +63,9 @@ export const accounts = createTable(
 		createdAt: timestamp("created_at").defaultNow(),
 		updatedAt: timestamp("updated_at").defaultNow(),
 	},
-	(table) => ({ uniqueConstraint: unique().on(table.providerId, table.accountId) }),
+	(table) => ({
+		uniqueConstraint: unique().on(table.providerId, table.accountId),
+	}),
 );
 
 export const accountsRelations = relations(accounts, ({ one }) => ({

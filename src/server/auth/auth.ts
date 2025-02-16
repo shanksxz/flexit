@@ -1,8 +1,8 @@
 import { env } from "@/env.js";
+import { db } from "@/server/db";
 import { accounts, sessions, users, verifications } from "@/server/db/schema";
 import { type BetterAuthOptions, betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { db } from "@/server/db";
 
 export const auth = betterAuth({
 	database: drizzleAdapter(db, {
