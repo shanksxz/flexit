@@ -1,9 +1,11 @@
-// src/components/SquatCounter.tsx
-import React, { useRef, useState, useEffect } from "react";
-import Webcam from "react-webcam";
-import { Pose, Results } from "@mediapipe/pose";
+"use client";
 import { Camera } from "@mediapipe/camera_utils";
 import { drawConnectors, drawLandmarks } from "@mediapipe/drawing_utils";
+import { Pose, type Results } from "@mediapipe/pose";
+// src/components/SquatCounter.tsx
+import type React from "react";
+import { useEffect, useRef, useState } from "react";
+import Webcam from "react-webcam";
 
 interface SquatCounterProps {
   squatThreshold?: number;
@@ -42,10 +44,10 @@ const SquatCounter: React.FC<SquatCounterProps> = ({
 
     pose.onResults(onResults);
 
-    if (webcamRef.current && webcamRef.current.video) {
+    if (webcamRef.current?.video) {
       const camera = new Camera(webcamRef.current.video, {
         onFrame: async () => {
-          if (webcamRef.current && webcamRef.current.video) {
+          if (webcamRef.current?.video) {
             await pose.send({ image: webcamRef.current.video });
           }
         },
@@ -54,7 +56,7 @@ const SquatCounter: React.FC<SquatCounterProps> = ({
       });
 
       camera.start().catch((err) => {
-        setError("Error starting camera: " + err.message);
+        setError(`Error starting camera: ${err.message}`);
       });
     }
 
