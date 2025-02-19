@@ -5,15 +5,15 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
+import { authClient } from "@/server/auth/auth-client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowLeft } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { unknown, z } from "zod";
 import ImageComponent from "./ImageComponent";
-import { authClient } from "@/server/auth/auth-client";
-import { useRouter } from "next/navigation";
 
 const loginSchema = z.object({
 	email: z.string().email("Please enter a valid email address"),

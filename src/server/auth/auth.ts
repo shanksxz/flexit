@@ -1,6 +1,6 @@
 import { env } from "@/env.js";
 import { db } from "@/server/db";
-import { account, verification, user, session } from "@/server/db/schema";
+import { account, session, user, verification } from "@/server/db/schema";
 import { type BetterAuthOptions, betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 

@@ -5,7 +5,9 @@ import { ActivityChart } from "@/components/Dashboard/ActivityChart";
 import { ProgressChart } from "@/components/Dashboard/ProgressChar";
 // import { Sidebar } from "@/components/sidebar";
 import { StatsCard } from "@/components/Dashboard/StatsCard";
+import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
 	Table,
 	TableBody,
@@ -14,11 +16,9 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import Image from "next/image";
 import { auth } from "@/server/auth/auth";
 import { authClient } from "@/server/auth/auth-client";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 const recentActivities = [
 	{
@@ -72,7 +72,7 @@ export default function DashboardPage() {
 							{isPending ? (
 								<Skeleton className="h-5 w-[100px] bg-gray-300" />
 							) : (
-								session?.user.fullName
+								session?.user.name
 							)}
 						</h1>
 					</div>
@@ -88,7 +88,7 @@ export default function DashboardPage() {
 							{isPending ? (
 								<Skeleton className="h-5 w-[70px] bg-gray-300" />
 							) : (
-								session?.user.fullName
+								session?.user.name
 							)}
 						</span>
 					</div>

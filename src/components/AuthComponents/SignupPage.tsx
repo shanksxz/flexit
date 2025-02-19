@@ -6,12 +6,12 @@ import { useToast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowLeft } from "lucide-react";
 
+import { authClient } from "@/server/auth/auth-client";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import ImageComponent from "./ImageComponent";
-import { useRouter } from "next/router";
-import { authClient } from "@/server/auth/auth-client";
 const signupSchema = z.object({
 	fullName: z.string().min(2, "Full name must be at least 2 characters"),
 	email: z.string().email("Please enter a valid email address"),
