@@ -1,9 +1,9 @@
-import SquatCounter from "../_components/SquatCounter";
+import SquatCounter from "../../components/SquatCounter";
 
 export default function Challenge() {
   return (
     <div>
-      <SquatCounter></SquatCounter>
+      <SquatCounter />
     </div>
   );
 }
