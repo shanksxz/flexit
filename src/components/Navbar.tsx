@@ -1,6 +1,6 @@
-import Link from "next/link";
-import { Home, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Calendar, Home } from "lucide-react";
+import Link from "next/link";
 
 export function SidebarNav() {
 	return (

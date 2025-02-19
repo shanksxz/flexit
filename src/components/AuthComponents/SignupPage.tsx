@@ -6,10 +6,12 @@ import { useToast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowLeft } from "lucide-react";
 
-import { useForm } from "react-hook-form";
 import Link from "next/link";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 import ImageComponent from "./ImageComponent";
+import { useRouter } from "next/router";
+import { authClient } from "@/server/auth/auth-client";
 const signupSchema = z.object({
 	fullName: z.string().min(2, "Full name must be at least 2 characters"),
 	email: z.string().email("Please enter a valid email address"),
@@ -28,20 +30,46 @@ export default function SignupPage() {
 		resolver: zodResolver(signupSchema),
 	});
 	const onSubmit = async (data: SignupForm) => {
+		let loadingToast: any = "";
+
 		try {
-			// Simulate API call
-			await new Promise((resolve) => setTimeout(resolve, 1000));
-			toast({
-				title: "Success!",
-				description: "Your account has been created.",
-			});
-			console.log(data);
-		} catch (error) {
-			toast({
-				variant: "destructive",
-				title: "Error",
-				description: "Something went wrong. Please try again.",
-			});
+			await authClient.signUp.email(
+				{
+					name: data.fullName,
+					email: data.email,
+					password: data.password,
+					dateOfBirth: data.dateOfBirth,
+					phoneNumber: data.phoneNumber,
+				},
+				{
+					onRequest: () => {
+						loadingToast = toast({
+							variant: "default",
+							description: "Signing up....",
+							duration: Number.POSITIVE_INFINITY,
+						});
+					},
+					onSuccess: () => {
+						toast({
+							variant: "default",
+							title: "Signed up Successfully",
+						});
+						loadingToast.dismiss();
+						useRouter().push("/login");
+					},
+					onError: (err) => {
+						console.log(err);
+					},
+				},
+			);
+		} catch (err) {
+			if (err instanceof Error) {
+				toast({
+					variant: "destructive",
+					title: "Some error occured while loggin in",
+					description: err.message,
+				});
+			}
 		}
 	};
 	return (

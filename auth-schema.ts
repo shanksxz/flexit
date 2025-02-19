@@ -14,6 +14,7 @@ export const user = pgTable("user", {
 	image: text("image"),
 	createdAt: timestamp("created_at").notNull(),
 	updatedAt: timestamp("updated_at").notNull(),
+	fullName: text("full_name").unique(),
 	dateOfBirth: text("date_of_birth"),
 	phoneNumber: text("phone_number"),
 });

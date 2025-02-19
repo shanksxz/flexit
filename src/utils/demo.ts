@@ -1,3 +1,5 @@
+import { auth } from "@/server/auth/auth";
+
 export const demousers = [
 	{ name: "Sarah J.", points: 2450 },
 	{ name: "Mike R.", points: 2340 },

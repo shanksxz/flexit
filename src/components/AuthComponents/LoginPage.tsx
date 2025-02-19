@@ -7,11 +7,13 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowLeft } from "lucide-react";
-import { useForm } from "react-hook-form";
-import Link from "next/link";
-import { z } from "zod";
 import Image from "next/image";
+import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { unknown, z } from "zod";
 import ImageComponent from "./ImageComponent";
+import { authClient } from "@/server/auth/auth-client";
+import { useRouter } from "next/navigation";
 
 const loginSchema = z.object({
 	email: z.string().email("Please enter a valid email address"),
@@ -23,6 +25,7 @@ type LoginForm = z.infer<typeof loginSchema>;
 
 export default function LoginComponent() {
 	const { toast } = useToast();
+	const router = useRouter();
 	const {
 		register,
 		handleSubmit,
@@ -35,32 +38,49 @@ export default function LoginComponent() {
 	});
 
 	const onSubmit = async (data: LoginForm) => {
+		const loadingToast = toast({
+			variant: "default",
+			description: "Signing up....",
+			duration: Number.POSITIVE_INFINITY,
+		});
 		try {
-			// Simulate API call
-			await new Promise((resolve) => setTimeout(resolve, 1000));
-			toast({
-				title: "Success!",
-				description: "You have successfully logged in.",
-			});
-			console.log(data);
-		} catch (error) {
-			toast({
-				variant: "destructive",
-				title: "Error",
-				description: "Something went wrong. Please try again.",
-			});
+			await authClient.signIn.email(
+				{
+					...data,
+				},
+				{
+					onSuccess: () => {
+						toast({
+							variant: "default",
+							title: "logged In successfully",
+						});
+						router.push("/dashboard");
+					},
+					onError: (ctx) => {
+						console.log(ctx.error.message);
+					},
+				},
+			);
+		} catch (err) {
+			if (err instanceof Error) {
+				toast({
+					variant: "destructive",
+					title: "Some error occured while loggin in",
+					description: err.message,
+				});
+			}
+		} finally {
+			loadingToast.dismiss();
 		}
 	};
 
 	return (
 		<div className="min-h-screen flex flex-col lg:flex-row">
-			{/* Left side - Illustration */}
 			<div className="lg:w-1/2 bg-[#2C73EA] p-8 flex flex-col">
 				<div className="text-white text-2xl font-bold mb-auto">Flex It</div>
 				<ImageComponent />
 			</div>
 
-			{/* Right side - Login Form */}
 			<div className="lg:w-1/2 p-8 flex flex-col">
 				<div className="max-w-md w-full mx-auto flex-1 flex flex-col justify-center">
 					<div className="mb-8">
@@ -124,7 +144,7 @@ export default function LoginComponent() {
 							className="w-full bg-blue-500 hover:bg-blue-600"
 							disabled={isSubmitting}
 						>
-							{isSubmitting ? "Logging in..." : "Register Account"}
+							{isSubmitting ? "Logging in..." : "Login in To your Account"}
 						</Button>
 
 						<p className="text-center text-sm text-gray-500">

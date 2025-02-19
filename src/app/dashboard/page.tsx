@@ -1,9 +1,10 @@
-import { FootprintsIcon as Walking, Flame, Clock, MapPin } from "lucide-react";
+"use client";
+import { Clock, Flame, MapPin, FootprintsIcon as Walking } from "lucide-react";
 
-// import { Sidebar } from "@/components/sidebar";
-import { StatsCard } from "@/components/Dashboard/StatsCard";
 import { ActivityChart } from "@/components/Dashboard/ActivityChart";
 import { ProgressChart } from "@/components/Dashboard/ProgressChar";
+// import { Sidebar } from "@/components/sidebar";
+import { StatsCard } from "@/components/Dashboard/StatsCard";
 import { Card } from "@/components/ui/card";
 import {
 	Table,
@@ -13,6 +14,11 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
+import Image from "next/image";
+import { auth } from "@/server/auth/auth";
+import { authClient } from "@/server/auth/auth-client";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
 
 const recentActivities = [
 	{
@@ -53,6 +59,7 @@ const recentActivities = [
 ];
 
 export default function DashboardPage() {
+	const { data: session, isPending } = authClient.useSession();
 	return (
 		<>
 			{/* <Sidebar className="w-64" /> */}
@@ -60,13 +67,30 @@ export default function DashboardPage() {
 				<div className="flex items-center justify-between mb-8">
 					<div>
 						<p className="text-sm text-muted-foreground">January 20, 2024</p>
-						<h1 className="text-3xl font-bold tracking-tight">
-							Welcome back, John
+						<h1 className="text-3xl font-bold tracking-tight flex gap-2 items-center">
+							Welcome back,{" "}
+							{isPending ? (
+								<Skeleton className="h-5 w-[100px] bg-gray-300" />
+							) : (
+								session?.user.fullName
+							)}
 						</h1>
 					</div>
-					<div className="flex items-center space-x-2">
-						<span className="text-sm">John Doe</span>
-						<div className="h-8 w-8 rounded-full bg-blue-100" />
+					<div className="flex items-center space-x-2 ">
+						<Image
+							src="https://avatar.iran.liara.run/public"
+							alt="undefined"
+							width={40}
+							height={50}
+							className=" rounded-full"
+						/>
+						<span className="text-md font-medium">
+							{isPending ? (
+								<Skeleton className="h-5 w-[70px] bg-gray-300" />
+							) : (
+								session?.user.fullName
+							)}
+						</span>
 					</div>
 				</div>
 

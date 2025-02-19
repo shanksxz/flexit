@@ -1,6 +1,6 @@
 import { env } from "@/env.js";
 import { db } from "@/server/db";
-import { accounts, sessions, users, verifications } from "@/server/db/schema";
+import { account, verification, user, session } from "@/server/db/schema";
 import { type BetterAuthOptions, betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 
@@ -8,12 +8,15 @@ export const auth = betterAuth({
 	database: drizzleAdapter(db, {
 		provider: "pg",
 		schema: {
-			user: users,
-			session: sessions,
-			account: accounts,
-			verification: verifications,
+			user,
+			session,
+			account,
+			verification,
 		},
 	}),
+	emailAndPassword: {
+		enabled: true,
+	},
 	socialProviders: {
 		github: {
 			clientId: env.GITHUB_ID,
@@ -22,9 +25,11 @@ export const auth = betterAuth({
 	},
 	user: {
 		additionalFields: {
-			username: {
+			dateOfBirth: {
 				type: "string",
-				unique: true,
+			},
+			phoneNumber: {
+				type: "string",
 			},
 		},
 	},
