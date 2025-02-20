@@ -1,9 +1,9 @@
-import { FootprintsIcon as Walking, Flame, Clock, MapPin } from "lucide-react";
+import { Clock, Flame, MapPin, FootprintsIcon as Walking } from "lucide-react";
 
-// import { Sidebar } from "@/components/sidebar";
-import { StatsCard } from "@/components/Dashboard/StatsCard";
 import { ActivityChart } from "@/components/Dashboard/ActivityChart";
 import { ProgressChart } from "@/components/Dashboard/ProgressChar";
+// import { Sidebar } from "@/components/sidebar";
+import { StatsCard } from "@/components/Dashboard/StatsCard";
 import { Card } from "@/components/ui/card";
 import {
 	Table,

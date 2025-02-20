@@ -1,9 +1,8 @@
-import { Trophy, Users, LineChart } from "lucide-react";
+import { LineChart, Trophy, Users } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
 import { FeatureCard } from "@/components/Landing/FeatureCard";
-import { SidebarNav } from "@/components/Navbar";
 import { SiteHeader } from "@/components/Landing/SiteHeader";
+import { Button } from "@/components/ui/button";
 import { demousers } from "@/utils/demo";
 
 export default function Dashboard() {

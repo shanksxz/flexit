@@ -7,10 +7,10 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowLeft } from "lucide-react";
-import { useForm } from "react-hook-form";
-import Link from "next/link";
-import { z } from "zod";
 import Image from "next/image";
+import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 import ImageComponent from "./ImageComponent";
 
 const loginSchema = z.object({
